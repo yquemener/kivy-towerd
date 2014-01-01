@@ -1,0 +1,114 @@
+#:kivy 1.0.9
+
+<LaserTurret>
+    d: 20.0
+    orient: 45
+    size: self.d, self.d
+    
+    canvas:
+        PushMatrix:
+            stack: "modelview_mat"    
+        Translate:
+            xy: self.center
+        Line:
+            rectangle: [0,0,self.d,self.d]
+        Rotate: 
+            angle: self.orient
+            origin: (self.d/2, self.d/2)
+        Ellipse:
+            size: self.d/2, self.d/2
+            pos: [self.d/4, self.d/4]
+        Line:
+            points: [self.d/2, self.d/2, self.d/2+self.d*0.75, self.d/2]
+        PopMatrix:
+            stack: "modelview_mat"
+<GunTurret>
+    d: 20.0
+    orient: 0
+    size: self.d, self.d
+    
+    canvas:
+        PushMatrix:
+            stack: "modelview_mat"
+        Translate:
+            xy: self.center    
+        Line:
+            rectangle: [0,0,self.d,self.d]
+        Rotate: 
+            angle: self.orient
+            origin: (self.d/2, self.d/2)
+        Ellipse:
+            size: self.d/2, self.d/2
+            pos: [self.d/4, self.d/4]
+        Line:
+            rectangle: [self.d/2, self.d/2-1, self.d*0.75, 3]
+        PopMatrix:
+            stack: "modelview_mat"
+<Base>
+    d: 40.0
+    size: self.d, self.d
+    
+    canvas:
+        PushMatrix:
+            stack: "modelview_mat"
+        Translate:
+            xy: self.center    
+        Line:
+            rectangle: [0,0,self.d,self.d]
+        Line:
+            rectangle: [0,0,self.d/6,self.d/6]
+        Line:
+            rectangle: [5*self.d/6,0,self.d/6,self.d/6]
+        Line:
+            rectangle: [5*self.d/6,5*self.d/6,self.d/6,self.d/6]
+        Line:
+            rectangle: [0,5*self.d/6,self.d/6,self.d/6]
+            
+        PopMatrix:
+            stack: "modelview_mat"
+
+<SquareEnemy>
+    d: 20.0
+    size: self.d, self.d
+    life: 0.4
+    orient: 0
+
+    canvas:
+        PushMatrix:
+            stack: "modelview_mat"
+        Translate:
+            xy: self.center    
+        Rotate: 
+            angle: self.orient
+            origin: (self.d/2, self.d/2)            
+        Rectangle: 
+            pos:[0,0]
+            size: [self.d/2*self.life,self.d]
+        Rectangle: 
+            pos:[self.d-self.d/2*self.life,0]
+            size: [self.d/2*self.life,self.d]
+        Rectangle: 
+            pos:[0,0]
+            size: [self.d,self.d/2*self.life]
+        Rectangle: 
+            pos:[0,self.d-self.d/2*self.life]
+            size: [self.d,self.d/2*self.life]
+        PopMatrix:
+            stack: "modelview_mat"
+        
+
+
+<TurretGame>:
+    life: 100
+    main_base: main_base
+    
+    Label:
+        font_size: 70  
+        center_x: root.width / 2
+        top: root.top - 50
+        text: str(root.life)
+
+    Base:
+        id: main_base
+        pos_x: 50
+        pos_y: root.height/2
