@@ -44,6 +44,21 @@
             rectangle: [self.d/2, self.d/2-1, self.d*0.75, 3]
         PopMatrix:
             stack: "modelview_mat"
+            
+<Bullet>
+    d: 2.0
+    
+    canvas:
+        PushMatrix:
+            stack: "modelview_mat"
+        Translate:
+            xy: self.center    
+        Line:
+            rectangle: [0,0,self.d,self.d]
+        PopMatrix:
+            stack: "modelview_mat"
+            
+            
 <Base>
     d: 40.0
     size: self.d, self.d
@@ -52,7 +67,7 @@
         PushMatrix:
             stack: "modelview_mat"
         Translate:
-            xy: self.center    
+            xy: self.pos
         Line:
             rectangle: [0,0,self.d,self.d]
         Line:
@@ -77,7 +92,7 @@
         PushMatrix:
             stack: "modelview_mat"
         Translate:
-            xy: self.center    
+            xy: self.pos
         Rotate: 
             angle: self.orient
             origin: (self.d/2, self.d/2)            
@@ -100,15 +115,39 @@
 
 <TurretGame>:
     life: 100
-    main_base: main_base
+    deblog: deblog
     
     Label:
         font_size: 70  
         center_x: root.width / 2
         top: root.top - 50
         text: str(root.life)
-
-    Base:
-        id: main_base
-        pos_x: 50
-        pos_y: root.height/2
+        
+    Label:
+        id:deblog
+        center_x: root.width / 2
+        center_y: root.height/2
+        text: ""
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
