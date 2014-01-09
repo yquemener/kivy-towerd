@@ -40,6 +40,8 @@
         Ellipse:
             size: self.d/2, self.d/2
             pos: [self.d/4, self.d/4]
+        Line: 
+            ellipse: [1, 1, self.d-2, self.d-2, 360, 360.0*self.cooldown/self.coolcycle]
         Line:
             rectangle: [self.d/2, self.d/2-1, self.d*0.75, 3]
         PopMatrix:
@@ -47,6 +49,7 @@
             
 <Bullet>
     d: 2.0
+    size: self.d, self.d
     
     canvas:
         PushMatrix:
@@ -67,6 +70,7 @@
         PushMatrix:
             stack: "modelview_mat"
         Translate:
+        
             xy: self.pos
         Line:
             rectangle: [0,0,self.d,self.d]
@@ -92,21 +96,21 @@
         PushMatrix:
             stack: "modelview_mat"
         Translate:
-            xy: self.pos
+            xy: self.center
         Rotate: 
             angle: self.orient
             origin: (self.d/2, self.d/2)            
         Rectangle: 
-            pos:[0,0]
+            pos:[-self.d/2,-self.d/2]
             size: [self.d/2*self.life,self.d]
         Rectangle: 
-            pos:[self.d-self.d/2*self.life,0]
+            pos:[self.d/2-self.d/2*self.life,self.d/2]
             size: [self.d/2*self.life,self.d]
         Rectangle: 
-            pos:[0,0]
+            pos:[-self.d/2,-self.d/2]
             size: [self.d,self.d/2*self.life]
         Rectangle: 
-            pos:[0,self.d-self.d/2*self.life]
+            pos:[-self.d/2,self.d/2-self.d/2*self.life]
             size: [self.d,self.d/2*self.life]
         PopMatrix:
             stack: "modelview_mat"

@@ -9,7 +9,7 @@ from kivy.vector import Vector
 from kivy.clock import Clock
 from kivy.uix.label import Label
 import traceback as tb
-
+from math import sqrt
 
 class ErrorApp(App):
     def __init__(self, **args):
@@ -37,14 +37,41 @@ class GunTurret(Widget):
     d = NumericProperty()
     orient = NumericProperty()
     cooldown = NumericProperty()
-    
+    coolcycle = 1.0
+    target = ObjectProperty()
     
     def __init__(self, **args):
         super(GunTurret, self).__init__(**args)
-        self.cooldown=1.0
+        self.cooldown = self.coolcycle
         
     def update(self, dt):
         self.cooldown -= dt
+        if(self.cooldown<0):
+            self.cooldown = self.coolcycle
+            self.shoot()
+    
+        for c in self.children:
+            c.update(dt)
+            
+    def shoot(self):
+        self.add_widget(Bullet(pos=self.center, target=self.target))
+        pass
+            
+class Bullet(Widget):
+    speed=150.0
+    
+    def __init__(self, **args):
+        super(Bullet, self).__init__(**args)
+        self.target = args["target"]
+        print self.target.center
+    
+    def update(self, dt):
+        tpos = self.target.pos
+        dv = [tpos[0] - self.pos[0], tpos[1] - self.pos[1]]
+        norm = sqrt(float(dv[0]*dv[0]+dv[1]*dv[1]))
+        dv[0] /= norm
+        dv[1] /= norm
+        self.pos = Vector(dv[0]*self.speed*dt, dv[1]*self.speed*dt) + self.pos
         
 
 class Base(Widget):
@@ -71,9 +98,12 @@ class TurretGame(Widget):
     deblog = ObjectProperty(None)
     life = NumericProperty()
     firstresize=True
+    enemies=list()
 
     def spawn_enemy(self):
-        self.add_widget(SquareEnemy(pos=(400, self.size[1]/2)))
+        e=SquareEnemy(pos=(400, self.size[1]/2))
+        self.enemies.append(e)
+        self.add_widget(e)
     
     def update(self, dt):
         if self.size!=[100,100] and self.firstresize:
@@ -92,6 +122,7 @@ class TurretGame(Widget):
         self.spawn_enemy()
         self.main_base=Base(pos=(50,self.size[1]/2))
         self.add_widget(self.main_base)
+        self.add_widget(GunTurret(pos=(150, self.size[1]/2-50), target=self.enemies[0]))
 
 class TurretApp(App):
     def build(self):
