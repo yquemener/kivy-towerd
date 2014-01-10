@@ -26,24 +26,25 @@
     d: 20.0
     orient: 0
     size: self.d, self.d
+    maxRange: 150.0
     
     canvas:
         PushMatrix:
             stack: "modelview_mat"
         Translate:
-            xy: self.center    
+            xy: self.pos    
         Line:
-            rectangle: [0,0,self.d,self.d]
+            rectangle: [-self.d/2,-self.d/2,self.d,self.d]
         Rotate: 
             angle: self.orient
-            origin: (self.d/2, self.d/2)
+            origin: (0, 0)
         Ellipse:
             size: self.d/2, self.d/2
-            pos: [self.d/4, self.d/4]
+            pos: [-self.d/4, -self.d/4]
         Line: 
-            ellipse: [1, 1, self.d-2, self.d-2, 360, 360.0*self.cooldown/self.coolcycle]
+            ellipse: [-self.d/2+1, -self.d/2+1, self.d-2, self.d-2, 360, 360.0*self.cooldown/self.coolcycle]
         Line:
-            rectangle: [self.d/2, self.d/2-1, self.d*0.75, 3]
+            rectangle: [0, -2, self.d*0.75, 4]
         PopMatrix:
             stack: "modelview_mat"
             
@@ -57,7 +58,7 @@
         Translate:
             xy: self.center    
         Line:
-            rectangle: [0,0,self.d,self.d]
+            rectangle: [-2,-2,self.d,self.d]
         PopMatrix:
             stack: "modelview_mat"
             
@@ -91,12 +92,13 @@
     size: self.d, self.d
     life: 0.4
     orient: 0
+    speed: 40
 
     canvas:
         PushMatrix:
             stack: "modelview_mat"
         Translate:
-            xy: self.center
+            xy: self.pos
         Rotate: 
             angle: self.orient
             origin: (self.d/2, self.d/2)            
@@ -104,7 +106,7 @@
             pos:[-self.d/2,-self.d/2]
             size: [self.d/2*self.life,self.d]
         Rectangle: 
-            pos:[self.d/2-self.d/2*self.life,self.d/2]
+            pos:[self.d/2-self.d/2*self.life,-self.d/2]
             size: [self.d/2*self.life,self.d]
         Rectangle: 
             pos:[-self.d/2,-self.d/2]
@@ -112,6 +114,9 @@
         Rectangle: 
             pos:[-self.d/2,self.d/2-self.d/2*self.life]
             size: [self.d,self.d/2*self.life]
+        Rectangle: 
+            pos:[-2,-2]
+            size: [4,4]
         PopMatrix:
             stack: "modelview_mat"
         
